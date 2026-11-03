@@ -1,4 +1,4 @@
-# Evolution of CEAF in Bahia: Pipeline Automatizado de Mineração de Dados no SIA/SUS e Modelagem Farmacoeconômica da Assistência Farmacêutica (2010–2025)
+# Evolution of CEAF in Bahia
 
 [![Python Version](https://img.shields.io/badge/Python-3.12%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![Playwright](https://img.shields.io/badge/Playwright-1.62%2B-green.svg?logo=playwright&logoColor=white)](https://playwright.dev/)
@@ -7,11 +7,11 @@
 [![Target](https://img.shields.io/badge/Focus-CEAF%20%2F%20Bahia%20%2F%20Brasil-orange.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
----
+Pipeline Automatizado de Mineração de Dados no SIA/SUS e Modelagem Farmacoeconômica da Assistência Farmacêutica
 
 ## Resumo (Abstract)
 
-**Português**: O Componente Especializado da Assistência Farmacêutica (CEAF) representa uma das estratégias de maior complexidade clínica e impacto orçamentário no âmbito do Sistema Único de Saúde (SUS), congregando medicamentos de alto custo para patologias crônicas e raras. Contudo, a realização de estudos epidemiológicos e farmacoeconômicos em nível populacional depara-se com barreiras substanciais na extração sistemática de dados secundários governamentais hospedados na plataforma legada TABNET/DATASUS do Ministério da Saúde. Este projeto implementa um pipeline reprodutível de Engenharia de Dados em Saúde baseado em automação de navegadores (*browser robotics*) e processamento vetorizado para extração, higienização, estruturação longitudinal (2010–2025) e modelagem analítica multidimensional dos procedimentos ambulatoriais do CEAF para o Estado da Bahia e demais Unidades da Federação (UFs). A arquitetura viabiliza o monitoramento de indicadores-chave de desempenho (KPIs), análises de demanda reprimida, impacto de complementos orçamentários dos entes federados e correções inflacionárias em moeda constante.
+**Português**: O Componente Especializado da Assistência Farmacêutica (CEAF) representa uma das estratégias de maior complexidade clínica e impacto orçamentário no âmbito do Sistema Único de Saúde (SUS), congregando medicamentos de alto custo para patologias crônicas e raras. Contudo, a realização de estudos epidemiológicos e farmacoeconômicos em nível populacional depara-se com barreiras substanciais na extração sistemática de dados secundários governamentais hospedados na plataforma legada TABNET/DATASUS do Ministério da Saúde. Este projeto implementa um pipeline reprodutível de Engenharia de Dados em Saúde baseado em automação de navegadores (_browser robotics_) e processamento vetorizado para extração, higienização, estruturação longitudinal (2010–2025) e modelagem analítica multidimensional dos procedimentos ambulatoriais do CEAF para o Estado da Bahia e demais Unidades da Federação (UFs). A arquitetura viabiliza o monitoramento de indicadores-chave de desempenho (KPIs), análises de demanda reprimida, impacto de complementos orçamentários dos entes federados e correções inflacionárias em moeda constante.
 
 **English**: The Specialized Component of Pharmaceutical Services (CEAF) is one of the most clinically critical and financially intensive segments of the Brazilian Unified Health System (SUS), providing high-cost treatments for chronic and rare diseases. However, population-level health economics and pharmacoepidemiological research frequently encounter data accessibility bottlenecks within the legacy TABNET/DATASUS portal. This repository delivers an automated, reproducible Health Data Engineering pipeline utilizing browser automation and vectorized tabular processing to systematically scrape, clean, aggregate, and model longitudinal CEAF outpatient records (2010–2025) across all Brazilian states, with a primary focus on Bahia. The resultant data infrastructure powers real-time KPI dashboards, budgetary strain analysis, per-capita spending trends, and real-value economic projections adjusted by inflation (IPCA).
 
@@ -20,15 +20,18 @@
 ## 1. Fundamentação Teórica e Contexto Institucional
 
 A Assistência Farmacêutica no Brasil organiza-se sob a égide tripartite (União, Estados e Municípios), sendo o **CEAF** regulamentado primordialmente pela Portaria de Consolidação GM/MS nº 2/2017 (Anexo XXVIII). Sua gestão financeira é categorizada em grupos operacionais:
-* **Grupo 1A**: Financiamento e aquisição centralizada pelo Ministério da Saúde (União);
-* **Grupo 1B**: Financiamento compartilhado (aquisição estadual com repasse/ressarcimento federal);
-* **Grupo 2**: Financiamento, aquisição e dispensação sob responsabilidade exclusiva dos Estados (Secretarias Estaduais de Saúde - SES/DASF);
-* **Grupo 3**: Medicamentos sob a governança da Atenção Básica e responsabilidade municipal.
+
+- **Grupo 1A**: Financiamento e aquisição centralizada pelo Ministério da Saúde (União);
+- **Grupo 1B**: Financiamento compartilhado (aquisição estadual com repasse/ressarcimento federal);
+- **Grupo 2**: Financiamento, aquisição e dispensação sob responsabilidade exclusiva dos Estados (Secretarias Estaduais de Saúde - SES/DASF);
+- **Grupo 3**: Medicamentos sob a governança da Atenção Básica e responsabilidade municipal.
 
 O acompanhamento da série histórica de aprovação e faturamento no **SIA/SUS** (Sistema de Informações Ambulatoriais) constitui elemento crítico para a **Diretoria de Assistência Farmacêutica (DASF/SESAB)** na formulação de políticas públicas, previsão de risco de desabastecimento, identificação de judicialização da saúde e planejamento orçamentário plurianual.
 
 ### O Desafio Técnico do TABNET / DATASUS
+
 A interface pública do TABNET baseia-se em formulários Common Gateway Interface (`deftohtm.exe`), orientados a arquivos binários proprietários (`.def` e `.dbf`). As principais limitações operacionais para pesquisa em saúde compreendem:
+
 1. Ausência de endpoints REST/GraphQL nativos ou APIs documentadas;
 2. Limitação de seleção manual de meses e anos por sessão HTTP;
 3. Arquivos CSV exportados com formatos híbridos: metadados textuais nas 5 primeiras linhas e rodapés institucionais nas últimas 12 linhas;
@@ -159,12 +162,12 @@ flowchart TD
     classDef export fill:#E8F5E9,stroke:#43A047,stroke-width:2px,color:#1B5E20;
 
     IniciaETL(["Chamada: main()"]):::read --> EnumPastas["Definir Lista de Diretórios Alvo:<br/>[População, Qtd_aprovada, Valor_aprovado,<br/>Qtd_apresentada, Valor_apresentado, ...]"]:::read
-    
+
     EnumPastas --> LoopPastas["Para cada pasta de métrica:"]:::read
     LoopPastas --> ListFiles["Varredura no filesystem:<br/>Localizar arquivos *.csv"]:::read
-    
+
     ListFiles --> LoopCSV["Para cada arquivo {ano}.csv:"]:::clean
-    
+
     subgraph Sanitizacao_Individual["Algoritmo de Parsing de Arquivo Legado"]
         LoopCSV --> CheckType{"Tipo de Conjunto?"}:::clean
         CheckType -- "População" --> ParsePop["pd.read_csv(<br/>sep=';', encoding='latin-1',<br/>skiprows=3, skipfooter=11)"]:::clean
@@ -179,7 +182,7 @@ flowchart TD
     CheckMoreFiles -- Não --> ConcatDF["Unificação Longitudinal:<br/>pd.concat(frames, ignore_index=True)"]:::merge
 
     ConcatDF --> WriteExcel["app/3_load.py:<br/>Gravar data/2_processed/{métrica}.xlsx"]:::export
-    
+
     WriteExcel --> CheckMorePastas{"Mais diretórios pendentes?"}:::clean
     CheckMorePastas -- Sim --> LoopPastas
     CheckMorePastas -- Não --> FimETL(["Pipeline de Transformação Finalizado"]):::export
@@ -191,15 +194,15 @@ flowchart TD
 
 O pipeline extrai longitudinalmente os seguintes conteúdos definidos nos dicionários de dados do SIA/SUS:
 
-| Métrica no Tabnet | Nome do Arquivo Sanitizado | Descrição Farmacoeconômica / Operacional |
-| :--- | :--- | :--- |
-| **Qtd.aprovada** | [`data/2_processed/Qtd_aprovada.xlsx`](data/2_processed/Qtd_aprovada.xlsx) | Volume físico de unidades farmacêuticas ou procedimentos cuja cobrança foi homologada e auditada pelo SUS. |
-| **Valor_aprovado** | [`data/2_processed/Valor_aprovado.xlsx`](data/2_processed/Valor_aprovado.xlsx) | Montante financeiro efetivamente aprovado para repasse ou custeio governamental (R$). |
-| **Qtd.apresentada** | [`data/2_processed/Qtd_apresentada.xlsx`](data/2_processed/Qtd_apresentada.xlsx) | Quantitativo total faturado/cobrado pelos prestadores de serviços ambulatoriais e secretarias. |
-| **Valor_apresentado** | [`data/2_processed/Valor_apresentado.xlsx`](data/2_processed/Valor_apresentado.xlsx) | Custo bruto submetido a faturamento no sistema de informações (R$). |
-| **Valor_do_complemento_federal** | [`data/2_processed/Valor_do_complemento_federal.xlsx`](data/2_processed/Valor_do_complemento_federal.xlsx) | Aportes adicionais transferidos pela União para itens de alto custo com repasse diferenciado. |
-| **Valor_do_complemento_do_gestor**| [`data/2_processed/Valor_do_complemento_do_gestor.xlsx`](data/2_processed/Valor_do_complemento_do_gestor.xlsx) | Contrapartida financeira aportada pelo tesouro estadual (ex.: SESAB) ou municipal para cobrir custos operacionais. |
-| **Valor_do_incremento** | [`data/2_processed/Valor_do_incremento.xlsx`](data/2_processed/Valor_do_incremento.xlsx) | Valores complementares autorizados em portarias ministeriais específicas. |
+| Métrica no Tabnet                  | Nome do Arquivo Sanitizado                                                                                     | Descrição Farmacoeconômica / Operacional                                                                           |
+| :--------------------------------- | :------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------- |
+| **Qtd.aprovada**                   | [`data/2_processed/Qtd_aprovada.xlsx`](data/2_processed/Qtd_aprovada.xlsx)                                     | Volume físico de unidades farmacêuticas ou procedimentos cuja cobrança foi homologada e auditada pelo SUS.         |
+| **Valor_aprovado**                 | [`data/2_processed/Valor_aprovado.xlsx`](data/2_processed/Valor_aprovado.xlsx)                                 | Montante financeiro efetivamente aprovado para repasse ou custeio governamental (R$).                              |
+| **Qtd.apresentada**                | [`data/2_processed/Qtd_apresentada.xlsx`](data/2_processed/Qtd_apresentada.xlsx)                               | Quantitativo total faturado/cobrado pelos prestadores de serviços ambulatoriais e secretarias.                     |
+| **Valor_apresentado**              | [`data/2_processed/Valor_apresentado.xlsx`](data/2_processed/Valor_apresentado.xlsx)                           | Custo bruto submetido a faturamento no sistema de informações (R$).                                                |
+| **Valor_do_complemento_federal**   | [`data/2_processed/Valor_do_complemento_federal.xlsx`](data/2_processed/Valor_do_complemento_federal.xlsx)     | Aportes adicionais transferidos pela União para itens de alto custo com repasse diferenciado.                      |
+| **Valor_do_complemento_do_gestor** | [`data/2_processed/Valor_do_complemento_do_gestor.xlsx`](data/2_processed/Valor_do_complemento_do_gestor.xlsx) | Contrapartida financeira aportada pelo tesouro estadual (ex.: SESAB) ou municipal para cobrir custos operacionais. |
+| **Valor_do_incremento**            | [`data/2_processed/Valor_do_incremento.xlsx`](data/2_processed/Valor_do_incremento.xlsx)                       | Valores complementares autorizados em portarias ministeriais específicas.                                          |
 
 ---
 
@@ -262,7 +265,7 @@ erDiagram
 2. **Gasto Real Per Capita Deflacionado pelo IPCA ($G_{real}^{capita}$)**:
    Permite comparar o investimento financeiro no CEAF da Bahia frente a outros estados sem as distorções inflacionárias do período:
    $$G_{real}^{capita} = \frac{\text{Valor Aprovado}_{uf, t} \times \left( \prod_{k=t}^{T_{base}} (1 + \pi_k) \right)}{\text{População Residente}_{uf, t}}$$
-   *Onde $\pi_k$ representa o IPCA anual do período $k$.*
+   _Onde $\pi_k$ representa o IPCA anual do período $k$._
 
 3. **Índice de Esforço Fiscal Próprio do Gestor Estadual ($I_{gestor}$)**:
    $$I_{gestor} = \frac{\text{Valor do Complemento do Gestor}}{\text{Valor Aprovado Total}} \times 100$$
@@ -278,7 +281,7 @@ extrator_datasus/
 │   ├── 0_extract.py                    # População residente -> CSV em data/1_raw/População
 │   ├── 1_extract.py                    # Tabnet -> CSV em data/1_raw
 │   ├── 2_transform.py                  # CSV -> DataFrames normalizados
-│   ├── 3_load.py                       # DataFrames -> Excel em data/2_processed
+│   ├── 3_load.py                       # Grava processados e cria a base curated
 │   ├── utils.py                        # Caminhos e configurações compartilhados
 │   └── __init__.py
 ├── data/
@@ -298,7 +301,8 @@ extrator_datasus/
 │   │   ├── População.xlsx
 │   │   └── Arquivos consolidados por métrica
 │   └── 3_curated/                      # Base curada para análise
-│       └── CEAF 2016 a 2025.xls
+│       ├── CEAF 2016 a 2025.xls        # Base legada
+│       └── CEAF_{ano inicial} a {ano final}.xlsx
 ├── main.py                             # Orquestrador do pipeline (CLI)
 ├── pyproject.toml                      # Metadados e dependências do projeto
 └── README.md                           # Documentação do projeto
@@ -309,45 +313,51 @@ extrator_datasus/
 ## 6. Guia de Reprodutibilidade Científica e Execução
 
 ### Pré-requisitos de Sistema
-* **Python**: Versão `>= 3.12`
-* **Gerenciador de Ambientes**: [uv](https://docs.astral.sh/uv/) (recomendado) ou `pip`/`venv`
-* **Navegador para Automação**: Chromium (binários gerenciados pelo Playwright)
-* **Conexão de Rede**: Acesso desimpedido ao domínio `tabnet.datasus.gov.br` (porta 80/HTTP)
+
+- **Python**: Versão `>= 3.12`
+- **Gerenciador de Ambientes**: [uv](https://docs.astral.sh/uv/) (recomendado) ou `pip`/`venv`
+- **Navegador para Automação**: Chromium (binários gerenciados pelo Playwright)
+- **Conexão de Rede**: Acesso desimpedido ao domínio `tabnet.datasus.gov.br` (porta 80/HTTP)
 
 ### Passo a Passo de Instalação
 
 1. **Clonar o Repositório**:
-   ```bash
-   git clone https://github.com/bernardonogueira8/EVOLUTION-OF-CEAF-IN-BAHIA.git
-   cd EVOLUTION-OF-CEAF-IN-BAHIA
-   ```
+
+    ```bash
+    git clone https://github.com/bernardonogueira8/EVOLUTION-OF-CEAF-IN-BAHIA.git
+    cd EVOLUTION-OF-CEAF-IN-BAHIA
+    ```
 
 2. **Criar e Ativar o Ambiente Virtual com `uv`**:
-   ```bash
-   # Criar ambiente virtual
-   uv venv
 
-   # Ativação no Windows (PowerShell):
-   .venv\Scripts\Activate.ps1
+    ```bash
+    # Criar ambiente virtual
+    uv venv
 
-   # Ativação no Linux/macOS:
-   source .venv/bin/activate
-   ```
+    # Ativação no Windows (PowerShell):
+    .venv\Scripts\Activate.ps1
+
+    # Ativação no Linux/macOS:
+    source .venv/bin/activate
+    ```
 
 3. **Instalação das Dependências do Projeto**:
-   ```bash
-   uv sync
-   ```
-   *Ou utilizando o pip padrão:*
-   ```bash
-   pip install pandas playwright openpyxl
-   ```
+
+    ```bash
+    uv sync
+    ```
+
+    _Ou utilizando o pip padrão:_
+
+    ```bash
+    pip install pandas playwright openpyxl
+    ```
 
 4. **Instalação dos Drivers de Automação do Playwright**:
-   ```bash
-   uv run playwright install chromium
-   ```
-   *Se as dependências foram instaladas com `pip`, execute `playwright install chromium` no ambiente virtual ativo.*
+    ```bash
+    uv run playwright install chromium
+    ```
+    _Se as dependências foram instaladas com `pip`, execute `playwright install chromium` no ambiente virtual ativo._
 
 ### Execução do pipeline
 
@@ -362,29 +372,31 @@ Também é possível executar uma etapa específica:
 ```bash
 uv run python main.py --stage extract
 uv run python main.py --stage transform
+uv run python main.py --stage load
 ```
 
-`extract` executa primeiro a extração de população residente na Bahia (`app/0_extract.py`) e depois as métricas do SIA/SUS (`app/1_extract.py`), salvando os CSVs em `data/1_raw`. Ambos usam o intervalo de 2010 a 2025 definido em `app/utils.py`. `transform` lê os CSVs existentes, aplica o parsing específico de população e SIA/SUS e grava as planilhas em `data/2_processed`. Pastas sem CSV são ignoradas e seus arquivos processados existentes são preservados. `data/3_curated` não é alterada: não há regra de transformação definida para a base curada.
+`extract` executa primeiro a extração de população residente na Bahia (`app/0_extract.py`) e depois as métricas do SIA/SUS (`app/1_extract.py`), salvando os CSVs em `data/1_raw`. `transform` lê os CSVs existentes, aplica o parsing específico de população e SIA/SUS e grava as planilhas em `data/2_processed`. `load` lê as quatro planilhas processadas de quantidade e valor, além de `População.xlsx`, e gera em `data/3_curated` uma linha por procedimento, macrorregião e período com as métricas e a população residente correspondente. A população é associada por macrorregião e período; a coluna `Total` é excluída e valores `-` ficam vazios (nulos), não são convertidos em zero. A saída é nomeada `CEAF_{ano inicial} a {ano final}.xlsx`, usando os anos disponíveis nos dados. O comando sem `--stage` executa as três etapas em sequência.
 
 ---
 
 ## 7. Conformidade Ética e Governança dos Dados
 
 Em estrito alinhamento com os preceitos de integridade em pesquisa e governança de dados em saúde:
-* **Dados Secundários de Acesso Público**: As informações extraídas provêm de registros administrativos anonimizados e agregados do SIA/SUS, disponibilizados publicamente pelo Ministério da Saúde em conformidade com a **Lei de Acesso à Informação (Lei nº 12.527/2011)**.
-* **Isenção de Parecer de CEP/CONEP**: Nos termos das **Resoluções CNS nº 466/2012 e nº 510/2016**, pesquisas que utilizam exclusivamente dados secundários de acesso público, sem identificação nominal ou risco individual a sujeitos humanos, dispensam submissão prévia ao Sistema CEP/CONEP.
-* **Boas Práticas de Web Scraping Responsável**: O crawler foi desenhado com delays implícitos de processamento e requisições focadas, mitigando sobrecarga aos servidores públicos do DATASUS.
+
+- **Dados Secundários de Acesso Público**: As informações extraídas provêm de registros administrativos anonimizados e agregados do SIA/SUS, disponibilizados publicamente pelo Ministério da Saúde em conformidade com a **Lei de Acesso à Informação (Lei nº 12.527/2011)**.
+- **Isenção de Parecer de CEP/CONEP**: Nos termos das **Resoluções CNS nº 466/2012 e nº 510/2016**, pesquisas que utilizam exclusivamente dados secundários de acesso público, sem identificação nominal ou risco individual a sujeitos humanos, dispensam submissão prévia ao Sistema CEP/CONEP.
+- **Boas Práticas de Web Scraping Responsável**: O crawler foi desenhado com delays implícitos de processamento e requisições focadas, mitigando sobrecarga aos servidores públicos do DATASUS.
 
 ---
 
 ## 8. Referências Bibliográficas e Normativas
 
-1. **BRASIL. Ministério da Saúde.** *Portaria de Consolidação GM/MS nº 2, de 28 de setembro de 2017.* Consolidação das normas sobre as políticas nacionais de saúde do SUS. Anexo XXVIII - Do Componente Especializado da Assistência Farmacêutica. Brasília: Diário Oficial da União, 2017.
-2. **BRASIL. Ministério da Saúde.** *Manual Técnico do Componente Especializado da Assistência Farmacêutica.* Departamento de Assistência Farmacêutica e Insumos Estratégicos (DAF/SCTIE/MS). Brasília: Ministério da Saúde, 2014.
-3. **BAHIA. Secretaria da Saúde do Estado da Bahia.** *Diretoria de Assistência Farmacêutica (DASF).* Protocolos e Acompanhamento da Produção do CEAF na Bahia. Salvador: SESAB, 2024.
-4. **DRUMMOND, M. F. et al.** *Methods for the Economic Evaluation of Health Care Programmes.* 4th ed. Oxford: Oxford University Press, 2015.
-5. **GUERRA JÚNIOR, A. A. et al.** *Avaliação econômica em saúde: desafios para a gestão no Sistema Único de Saúde.* Revista de Saúde Pública, v. 50, p. 55-65, 2016.
-6. **DATASUS.** *Documentação do Sistema de Informações Ambulatoriais do SUS (SIA/SUS).* Departamento de Informática do SUS, Ministério da Saúde, 2024. Disponível em: <http://datasus.saude.gov.br>.
+1. **BRASIL. Ministério da Saúde.** _Portaria de Consolidação GM/MS nº 2, de 28 de setembro de 2017._ Consolidação das normas sobre as políticas nacionais de saúde do SUS. Anexo XXVIII - Do Componente Especializado da Assistência Farmacêutica. Brasília: Diário Oficial da União, 2017.
+2. **BRASIL. Ministério da Saúde.** _Manual Técnico do Componente Especializado da Assistência Farmacêutica._ Departamento de Assistência Farmacêutica e Insumos Estratégicos (DAF/SCTIE/MS). Brasília: Ministério da Saúde, 2014.
+3. **BAHIA. Secretaria da Saúde do Estado da Bahia.** _Diretoria de Assistência Farmacêutica (DASF)._ Protocolos e Acompanhamento da Produção do CEAF na Bahia. Salvador: SESAB, 2024.
+4. **DRUMMOND, M. F. et al.** _Methods for the Economic Evaluation of Health Care Programmes._ 4th ed. Oxford: Oxford University Press, 2015.
+5. **GUERRA JÚNIOR, A. A. et al.** _Avaliação econômica em saúde: desafios para a gestão no Sistema Único de Saúde._ Revista de Saúde Pública, v. 50, p. 55-65, 2016.
+6. **DATASUS.** _Documentação do Sistema de Informações Ambulatoriais do SUS (SIA/SUS)._ Departamento de Informática do SUS, Ministério da Saúde, 2024. Disponível em: <http://datasus.saude.gov.br>.
 
 ---
 

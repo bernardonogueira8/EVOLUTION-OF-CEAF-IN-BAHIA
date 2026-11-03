@@ -25,7 +25,7 @@ def transform_folder(
         )
         population = normalized_name in {"populacao", "population"}
 
-    skiprows, skipfooter = (4, 8) if population else (6, 14)
+    skiprows, skipfooter = (4, 9) if population else (5, 14)
     frames = []
 
     for csv_file in csv_files:

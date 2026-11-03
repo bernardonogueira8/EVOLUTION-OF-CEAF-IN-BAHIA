@@ -28,6 +28,6 @@ TABNET_CONTENTS = (
     ("Valor_do_incremento", "Valor_do_incremento"),
 )
 
-YEARS = range(2010, 2011)
+YEARS = range(2025, 2026)
 TABNET_URL = "http://tabnet.datasus.gov.br/cgi/deftohtm.exe?sia/cnv/qaba.def"
 TABNET_URL_POPULATION = "http://tabnet.datasus.gov.br/cgi/deftohtm.exe?ibge/cnv/popsvs2024br.def"

@@ -6,9 +6,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Pipeline de dados SIA/SUS - CEAF")
     parser.add_argument(
         "--stage",
-        choices=("all", "extract", "transform"),
+        choices=("all", "extract", "transform", "load"),
         default="all",
-        help="Etapa a executar (transform também grava os arquivos processados).",
+        help="Etapa a executar (transform grava dados processados; load gera a base curated).",
     )
     stage = parser.parse_args().stage
 
@@ -23,6 +23,10 @@ def main() -> None:
         loader = import_module("app.3_load")
         datasets = transformer.transform_all()
         loader.load_all(datasets)
+
+    if stage in ("all", "load"):
+        loader = import_module("app.3_load")
+        loader.create_curated()
 
 
 if __name__ == "__main__":
